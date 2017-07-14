@@ -1,7 +1,6 @@
 package alexanders.mods.df.tile;
 
 import alexanders.mods.df.entity.EntityDrill;
-import alexanders.mods.df.entity.FakePlayer;
 import de.ellpeck.rockbottom.api.data.set.DataSet;
 import de.ellpeck.rockbottom.api.inventory.Inventory;
 import de.ellpeck.rockbottom.api.item.ItemInstance;
@@ -111,13 +110,13 @@ public class TileEntityDrill extends TileEntityFueled {
                 Tile ourTile = world.getTile(x, y);
                 this.isMoving = true;
                 world.addEntity(entity = new EntityDrill(world, ourTile.getName(), x - 1, y - 1));
-                ourTile.doBreak(world, x, y, TileLayer.MAIN, FakePlayer.getInstance(world), false, false);
+                ourTile.doBreak(world, x, y, TileLayer.MAIN, null, false, false);
             }
         } else if (this.isMoving) {
             // Stop moving
             int newX = (int) (entity.x + (entity.x < 0 ? .5f : 1.5f));
             int newY = (int) Math.round(entity.y) + 1;
-            TILE_REGISTRY.get(entity.name).doPlace(world, newX, newY, TileLayer.MAIN, null, FakePlayer.getInstance(world));
+            TILE_REGISTRY.get(entity.name).doPlace(world, newX, newY, TileLayer.MAIN, null, null);
             entity.kill();
             world.removeTileEntity(newX, newY);
             this.isMoving = false;

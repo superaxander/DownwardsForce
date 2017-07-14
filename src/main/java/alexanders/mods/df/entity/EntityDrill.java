@@ -74,8 +74,6 @@ public class EntityDrill extends Entity {
             for (int x = 0; x < 3; x++) {
                 int x2 = (int) (this.x + .5 * (this.x < 0 ? -1 : 1)) + x;
                 int y2 = (int) Math.round(this.y) - 1;
-
-                FakePlayer player = FakePlayer.getInstance(world);
                 Tile tile = world.getTile(TileLayer.MAIN, x2, y2);
                 if (tile.isAir())
                     continue;
@@ -83,8 +81,8 @@ public class EntityDrill extends Entity {
                     breakProgress -= 1f;
 
                     if (canMineTile(y2, tile.getHardness(world, x2, y2, TileLayer.MAIN))) {
-                        tile.doBreak(world, x2, y2, TileLayer.MAIN, player, false, false);
-                        List<ItemInstance> drops = tile.getDrops(world, x2, y2, TileLayer.MAIN, player);
+                        tile.doBreak(world, x2, y2, TileLayer.MAIN, null, false, false);
+                        List<ItemInstance> drops = tile.getDrops(world, x2, y2, TileLayer.MAIN, null);
                         if (drops != null)
                             drops.forEach(drop -> {
                                 if (drop != null) {
