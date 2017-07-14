@@ -1,0 +1,8 @@
+group 'alexanders.mods.df'
+version '0.1'
+
+apply from: "https://github.com/RockBottomGame/Gradle/raw/master/buildscript.gradle"
+
+processSources {
+    replace("VERSION", version)
+}

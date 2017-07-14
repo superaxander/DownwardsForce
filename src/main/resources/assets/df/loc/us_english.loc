@@ -1,0 +1,8 @@
+df/item.drill_basic=Basic Drill
+df/item.drill_copper=Copper Drill
+df/item.drill_bit_basic=Basic Drill Bit
+df/item.drill_bit_copper=Copper Drill Bit
+df/desc.drill1=Max hardness: %d
+df/desc.drill2=Inventory Size: %d
+df/desc.drill3=Speed: %.2f tiles/tick
+df/desc.drill4=Fuel usage modifier: %.2f
