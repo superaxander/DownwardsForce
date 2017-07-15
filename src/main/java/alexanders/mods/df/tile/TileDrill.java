@@ -81,7 +81,7 @@ public class TileDrill extends MultiTile {
     @Override
     public void onDestroyed(IWorld world, int x, int y, Entity destroyer, TileLayer layer, boolean shouldDrop) {
         super.onDestroyed(world, x, y, destroyer, layer, shouldDrop);
-        if (!RockBottomAPI.getNet().isClient()) {
+        if (!RockBottomAPI.getNet().isClient() && shouldDrop) {
             TileEntityDrill te = world.getTileEntity(x, y, TileEntityDrill.class);
             if (te != null) {
                 te.dropInventory(te.inventory);
