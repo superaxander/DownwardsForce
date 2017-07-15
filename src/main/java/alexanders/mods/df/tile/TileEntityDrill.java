@@ -17,16 +17,14 @@ public class TileEntityDrill extends TileEntityFueled {
     public Inventory inventory;
     public Inventory fuelInventory;
     public int maxHardness;
-    public int maxDepth;
     public float tilesPerTick;
-    public float fuelModifier;
+    private float fuelModifier;
     private boolean isMoving = false; // TODO: Is this variable even needed because isActive basically does the same thing
     private EntityDrill entity = null;
 
-    public TileEntityDrill(IWorld world, int x, int y, int maxHardness, int maxDepth, float tilesPerTick, float fuelModifier, int inventorySize) {
+    public TileEntityDrill(IWorld world, int x, int y, int maxHardness, float tilesPerTick, float fuelModifier, int inventorySize) {
         super(world, x, y);
         this.maxHardness = maxHardness;
-        this.maxDepth = maxDepth;
         this.inventorySize = inventorySize;
         this.tilesPerTick = tilesPerTick;
         this.fuelModifier = fuelModifier;
@@ -34,10 +32,9 @@ public class TileEntityDrill extends TileEntityFueled {
         this.inventory = new Inventory(this.inventorySize);
     }
 
-    public TileEntityDrill(int x, int y, TileEntityDrill old) {
+    private TileEntityDrill(int x, int y, TileEntityDrill old) {
         super(old.world, x, y);
         this.maxHardness = old.maxHardness;
-        this.maxDepth = old.maxDepth;
         this.inventorySize = old.inventorySize;
         this.fuelInventory = old.fuelInventory;
         this.inventory = old.inventory;
@@ -55,7 +52,6 @@ public class TileEntityDrill extends TileEntityFueled {
     public void load(DataSet set, boolean forSync) {
         super.load(set, forSync);
         maxHardness = set.getInt("maxHardness");
-        maxDepth = set.getInt("maxDepth");
         inventorySize = set.getInt("inventorySize");
         fuelInventory.load(set.getDataSet("fuelInv"));
         inventory = new Inventory(inventorySize);
@@ -69,7 +65,6 @@ public class TileEntityDrill extends TileEntityFueled {
     public void save(DataSet set, boolean forSync) {
         super.save(set, forSync);
         set.addInt("maxHardness", maxHardness);
-        set.addInt("maxDepth", maxDepth);
         set.addInt("inventorySize", inventorySize);
         DataSet fuelInv = new DataSet();
         fuelInventory.save(fuelInv);

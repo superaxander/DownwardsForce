@@ -100,12 +100,7 @@ public class EntityDrill extends Entity {
     }
 
     private boolean canMineTile(int y, float hardness) {
-        if (y > tileEntity.maxDepth / 2) {
-            hardness += Math.pow(-y, .45) - tileEntity.maxHardness;
-        } else {
-            hardness += Math.pow(-y - tileEntity.maxDepth / 2, .54) - tileEntity.maxHardness;
-        }
-        return hardness < 0;
+        return (hardness + Math.pow(-y, .67) - tileEntity.maxHardness) < 0;
     }
 
     @Override

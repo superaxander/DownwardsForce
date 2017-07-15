@@ -20,17 +20,15 @@ public class TileDrill extends MultiTile {
     private static final IResourceName DESC2_RESOURCE = RockBottomAPI.createRes(DownwardsForce.instance, "desc.drill2");
     private static final IResourceName DESC3_RESOURCE = RockBottomAPI.createRes(DownwardsForce.instance, "desc.drill3");
     private static final IResourceName DESC4_RESOURCE = RockBottomAPI.createRes(DownwardsForce.instance, "desc.drill4");
-    
+
     private final int maxHardness;
-    private final int maxDepth;
     private final int inventorySize;
     private final float tilesPerTick;
     private final float fuelModifier;
 
-    public TileDrill(IResourceName name, int maxHardness, int maxDepth, float tilesPerTick, float fuelModifier, int inventorySize) {
+    public TileDrill(IResourceName name, int maxHardness, float tilesPerTick, float fuelModifier, int inventorySize) {
         super(name);
         this.maxHardness = maxHardness;
-        this.maxDepth = maxDepth;
         this.inventorySize = inventorySize;
         this.tilesPerTick = tilesPerTick;
         this.fuelModifier = fuelModifier;
@@ -65,7 +63,7 @@ public class TileDrill extends MultiTile {
 
     @Override
     public TileEntity provideTileEntity(IWorld world, int x, int y) {
-        return isMainPos(x, y, world.getMeta(x, y)) ? new TileEntityDrill(world, x, y, maxHardness, maxDepth, tilesPerTick, fuelModifier, inventorySize) : null;
+        return isMainPos(x, y, world.getMeta(x, y)) ? new TileEntityDrill(world, x, y, maxHardness, tilesPerTick, fuelModifier, inventorySize) : null;
     }
 
     @Override

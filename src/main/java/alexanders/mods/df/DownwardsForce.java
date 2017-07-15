@@ -54,8 +54,8 @@ public class DownwardsForce implements IMod {
         IResourceName drill_copper = RockBottomAPI.createRes(this, "drill_copper");
         IResourceName drill_bit_basic = RockBottomAPI.createRes(this, "drill_bit_basic");
         IResourceName drill_bit_copper = RockBottomAPI.createRes(this, "drill_bit_copper");
-            TileDrill drillBasic = new TileDrill(drill_basic, 18, -64, .25f, .5f, 10);
-        TileDrill drillCopper = new TileDrill(drill_copper, 28, -128, .5f, .25f, 20);
+        TileDrill drillBasic = new TileDrill(drill_basic, 30, .25f, .5f, 10);
+        TileDrill drillCopper = new TileDrill(drill_copper, 42, .5f, .25f, 20);
         DrillBitItem drillBitBasic = new DrillBitItem(drill_bit_basic);
         DrillBitItem drillBitCopper = new DrillBitItem(drill_bit_copper);
         drillBasic.register();
