@@ -5,6 +5,7 @@ import alexanders.mods.df.renderer.DrillContainer;
 import alexanders.mods.df.renderer.DrillGui;
 import de.ellpeck.rockbottom.api.RockBottomAPI;
 import de.ellpeck.rockbottom.api.assets.IAssetManager;
+import de.ellpeck.rockbottom.api.entity.Entity;
 import de.ellpeck.rockbottom.api.entity.player.AbstractEntityPlayer;
 import de.ellpeck.rockbottom.api.item.ItemInstance;
 import de.ellpeck.rockbottom.api.tile.MultiTile;
@@ -12,6 +13,7 @@ import de.ellpeck.rockbottom.api.tile.entity.TileEntity;
 import de.ellpeck.rockbottom.api.util.Pos2;
 import de.ellpeck.rockbottom.api.util.reg.IResourceName;
 import de.ellpeck.rockbottom.api.world.IWorld;
+import de.ellpeck.rockbottom.api.world.TileLayer;
 
 import java.util.List;
 
@@ -74,6 +76,18 @@ public class TileDrill extends MultiTile {
                 {true, true, true},
                 {false, true, false}
         };
+    }
+
+    @Override
+    public void onDestroyed(IWorld world, int x, int y, Entity destroyer, TileLayer layer, boolean shouldDrop) {
+        super.onDestroyed(world, x, y, destroyer, layer, shouldDrop);
+        if (!RockBottomAPI.getNet().isClient()) {
+            TileEntityDrill te = world.getTileEntity(x, y, TileEntityDrill.class);
+            if (te != null) {
+                te.dropInventory(te.inventory);
+                te.dropInventory(te.fuelInventory);
+            }
+        }
     }
 
     @Override
