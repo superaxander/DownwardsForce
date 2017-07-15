@@ -19,7 +19,6 @@ public class TileEntityDrill extends TileEntityFueled {
     public int maxHardness;
     public float tilesPerTick;
     private float fuelModifier;
-    private boolean isMoving = false; // TODO: Is this variable even needed because isActive basically does the same thing
     private EntityDrill entity = null;
 
     public TileEntityDrill(IWorld world, int x, int y, int maxHardness, float tilesPerTick, float fuelModifier, int inventorySize) {
@@ -38,7 +37,6 @@ public class TileEntityDrill extends TileEntityFueled {
         this.inventorySize = old.inventorySize;
         this.fuelInventory = old.fuelInventory;
         this.inventory = old.inventory;
-        this.isMoving = old.isMoving;
         this.entity = old.entity;
         this.fuelModifier = old.fuelModifier;
         this.tilesPerTick = old.tilesPerTick;
@@ -56,7 +54,6 @@ public class TileEntityDrill extends TileEntityFueled {
         fuelInventory.load(set.getDataSet("fuelInv"));
         inventory = new Inventory(inventorySize);
         inventory.load(set.getDataSet("inv"));
-        isMoving = set.getBoolean("isMoving");
         tilesPerTick = set.getFloat("tilesPerTick");
         fuelModifier = set.getFloat("fuelModifier");
     }
@@ -72,7 +69,6 @@ public class TileEntityDrill extends TileEntityFueled {
         DataSet inv = new DataSet();
         inventory.save(inv);
         set.addDataSet("inv", inv);
-        set.addBoolean("isMoving", isMoving);
         set.addFloat("tilesPerTick", tilesPerTick);
         set.addFloat("fuelModifier", fuelModifier);
     }
@@ -100,21 +96,18 @@ public class TileEntityDrill extends TileEntityFueled {
     @Override
     protected void onActiveChange(boolean active) {
         if (active) {
-            if (!this.isMoving) {
+            
                 // Start moving
                 Tile ourTile = world.getTile(x, y);
-                this.isMoving = true;
                 world.addEntity(entity = new EntityDrill(world, ourTile.getName(), x - 1, y - 1));
                 ourTile.doBreak(world, x, y, TileLayer.MAIN, null, false, false);
-            }
-        } else if (this.isMoving) {
+        } else {
             // Stop moving
             int newX = (int) (entity.x + (entity.x < 0 ? .5f : 1.5f));
             int newY = (int) Math.round(entity.y) + 1;
             TILE_REGISTRY.get(entity.name).doPlace(world, newX, newY, TileLayer.MAIN, null, null);
             entity.kill();
             world.removeTileEntity(newX, newY);
-            this.isMoving = false;
             world.addTileEntity(new TileEntityDrill(newX, newY, this));
         }
     }
