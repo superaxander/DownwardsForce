@@ -96,15 +96,15 @@ public class TileEntityDrill extends TileEntityFueled {
     @Override
     protected void onActiveChange(boolean active) {
         if (active) {
-            
-                // Start moving
-                Tile ourTile = world.getTile(x, y);
-                world.addEntity(entity = new EntityDrill(world, ourTile.getName(), x - 1, y - 1));
-                ourTile.doBreak(world, x, y, TileLayer.MAIN, null, false, false);
+
+            // Start moving
+            Tile ourTile = world.getTile(x, y);
+            world.addEntity(entity = new EntityDrill(world, ourTile.getName(), x - 1, y));
+            ourTile.doBreak(world, x, y, TileLayer.MAIN, null, false, false);
         } else {
             // Stop moving
             int newX = (int) (entity.x + (entity.x < 0 ? .5f : 1.5f));
-            int newY = (int) Math.round(entity.y) + 1;
+            int newY = (int) Math.round(entity.y);
             TILE_REGISTRY.get(entity.name).doPlace(world, newX, newY, TileLayer.MAIN, null, null);
             entity.kill();
             world.removeTileEntity(newX, newY);

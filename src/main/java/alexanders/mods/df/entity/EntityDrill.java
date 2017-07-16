@@ -32,7 +32,7 @@ public class EntityDrill extends Entity {
         super(world);
         renderer = new DrillRenderer(name.addSuffix(".active"));
         this.name = name;
-        tileEntity = (TileEntityDrill) world.getTileEntity(x + 1, y + 1);
+        tileEntity = (TileEntityDrill) world.getTileEntity(x + 1, y);
         this.setPos(x, y);
         this.breakProgress = 0;
     }
@@ -100,7 +100,7 @@ public class EntityDrill extends Entity {
     }
 
     private boolean canMineTile(int y, float hardness) {
-        return (hardness + Math.pow(-y, .67) - tileEntity.maxHardness) < 0;
+        return y > 0 || (hardness + Math.pow(-y, .67) - tileEntity.maxHardness) < 0;
     }
 
     @Override

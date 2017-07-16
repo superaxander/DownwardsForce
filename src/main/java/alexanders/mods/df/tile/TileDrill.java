@@ -112,6 +112,6 @@ public class TileDrill extends MultiTile {
 
     @Override
     public int getMainY() {
-        return 1;
+        return 0;
     }
 }
