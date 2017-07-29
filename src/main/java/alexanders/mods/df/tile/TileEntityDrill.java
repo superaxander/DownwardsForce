@@ -98,7 +98,7 @@ public class TileEntityDrill extends TileEntityFueled {
         if (active) {
 
             // Start moving
-            Tile ourTile = world.getTile(x, y);
+            Tile ourTile = world.getState(x, y).getTile();
             world.addEntity(entity = new EntityDrill(world, ourTile.getName(), x - 1, y));
             ourTile.doBreak(world, x, y, TileLayer.MAIN, null, false, false);
         } else {

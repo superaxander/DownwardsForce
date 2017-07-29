@@ -74,7 +74,7 @@ public class EntityDrill extends Entity {
             for (int x = 0; x < 3; x++) {
                 int x2 = (int) (this.x + .5 * (this.x < 0 ? -1 : 1)) + x;
                 int y2 = (int) Math.round(this.y) - 1;
-                Tile tile = world.getTile(TileLayer.MAIN, x2, y2);
+                Tile tile = world.getState(TileLayer.MAIN, x2, y2).getTile();
                 if (tile.isAir())
                     continue;
                 if ((breakProgress += tileEntity.tilesPerTick) >= 1f) {

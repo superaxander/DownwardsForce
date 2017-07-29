@@ -45,10 +45,10 @@ public class TileDrill extends MultiTile {
         desc.add(manager.localize(DESC3_RESOURCE, tilesPerTick));
         desc.add(manager.localize(DESC4_RESOURCE, fuelModifier));
     }
-
+    
     @Override
-    public boolean onInteractWith(IWorld world, int x, int y, double mouseX, double mouseY, AbstractEntityPlayer player) {
-        Pos2 main = this.getMainPos(x, y, world.getMeta(x, y));
+    public boolean onInteractWith(IWorld world, int x, int y, TileLayer layer, double mouseX, double mouseY, AbstractEntityPlayer player) {
+        Pos2 main = this.getMainPos(x, y, world.getState(x, y));
         TileEntityDrill tile = world.getTileEntity(main.getX(), main.getY(), TileEntityDrill.class);
         if (tile != null) {
             player.openGuiContainer(new DrillGui(player, tile), new DrillContainer(player, tile, tile.fuelInventory, tile.inventory, player.getInv()));
@@ -65,7 +65,7 @@ public class TileDrill extends MultiTile {
 
     @Override
     public TileEntity provideTileEntity(IWorld world, int x, int y) {
-        return isMainPos(x, y, world.getMeta(x, y)) ? new TileEntityDrill(world, x, y, maxHardness, tilesPerTick, fuelModifier, inventorySize) : null;
+        return isMainPos(x, y, world.getState(x, y)) ? new TileEntityDrill(world, x, y, maxHardness, tilesPerTick, fuelModifier, inventorySize) : null;
     }
 
     @Override
