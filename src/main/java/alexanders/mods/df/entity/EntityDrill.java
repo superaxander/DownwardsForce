@@ -33,12 +33,20 @@ public class EntityDrill extends Entity {
         renderer = new DrillRenderer(name.addSuffix(".active"));
         this.name = name;
         tileEntity = (TileEntityDrill) world.getTileEntity(x + 1, y);
+        if(tileEntity == null)
+            tileEntity = new TileEntityDrill(world, 0, 0);
+        tileEntity.isContained = true;
+        tileEntity.entity = this;
+        world.removeTileEntity(x + 1, y);
         this.setPos(x, y);
         this.breakProgress = 0;
     }
 
     public EntityDrill(IWorld world) {
         super(world);
+        tileEntity = new TileEntityDrill(world, 0, 0);
+        tileEntity.isContained = true;
+        tileEntity.entity = this;
     }
 
 
@@ -50,9 +58,9 @@ public class EntityDrill extends Entity {
     @Override
     public void save(DataSet set) {
         super.save(set);
-        set.addString("resourceName", renderer.texture.getDomain() + "/" + renderer.texture.getResourceName());
+        set.addString("resourceName", name.getDomain() + "/" + name.getResourceName());
         DataSet te = new DataSet();
-        tileEntity.save(set, false);
+        tileEntity.save(te, false);
         set.addDataSet("te", te);
         set.addFloat("breakProgress", breakProgress);
     }
@@ -60,8 +68,11 @@ public class EntityDrill extends Entity {
     @Override
     public void load(DataSet set) {
         super.load(set);
-        renderer = new DrillRenderer(createRes(set.getString("resourceName")));
+        name = createRes(set.getString("resourceName"));
+        renderer = new DrillRenderer(name.addSuffix(".active"));
         tileEntity = new TileEntityDrill(world, 0, 0); // The location doesn't matter since we update when we stop moving
+        tileEntity.isContained = true;
+        tileEntity.entity = this;
         tileEntity.load(set.getDataSet("te"), false);
         breakProgress = set.getFloat("breakProgress");
     }
@@ -69,30 +80,34 @@ public class EntityDrill extends Entity {
     @Override
     public void update(IGameInstance game) {
         super.update(game);
-        this.tileEntity.update(game);
-        if (this.tileEntity.isActive()) {
-            for (int x = 0; x < 3; x++) {
-                int x2 = (int) (this.x + .5 * (this.x < 0 ? -1 : 1)) + x;
-                int y2 = (int) Math.round(this.y) - 1;
-                Tile tile = world.getState(TileLayer.MAIN, x2, y2).getTile();
-                if (tile.isAir())
-                    continue;
-                if ((breakProgress += tileEntity.tilesPerTick) >= 1f) {
-                    breakProgress -= 1f;
+        if (tileEntity != null) {
+            tileEntity.isContained = true;
+            tileEntity.entity = this; //TODO: Remove the many duplicates of this
+            this.tileEntity.update(game);
+            if (this.tileEntity.isActive()) {
+                for (int x = 0; x < 3; x++) {
+                    int x2 = (int) (this.x + .5 * (this.x < 0 ? -1 : 1)) + x;
+                    int y2 = (int) Math.round(this.y) - 1;
+                    Tile tile = world.getState(TileLayer.MAIN, x2, y2).getTile();
+                    if (tile.isAir())
+                        continue;
+                    if ((breakProgress += tileEntity.tilesPerTick) >= 1f) {
+                        breakProgress -= 1f;
 
-                    if (canMineTile(y2, tile.getHardness(world, x2, y2, TileLayer.MAIN))) {
-                        tile.doBreak(world, x2, y2, TileLayer.MAIN, null, false, false);
-                        List<ItemInstance> drops = tile.getDrops(world, x2, y2, TileLayer.MAIN, null);
-                        if (drops != null)
-                            drops.forEach(drop -> {
-                                if (drop != null) {
-                                    if (tileEntity.fuelInventory.get(0) != null)
-                                        if (drop.getItem() == tileEntity.fuelInventory.get(0).getItem())
-                                            drop = tileEntity.fuelInventory.add(drop, true);
-                                    if (drop != null)
-                                        tileEntity.inventory.add(drop, false);
-                                }
-                            });
+                        if (canMineTile(y2, tile.getHardness(world, x2, y2, TileLayer.MAIN))) {
+                            tile.doBreak(world, x2, y2, TileLayer.MAIN, null, false, false);
+                            List<ItemInstance> drops = tile.getDrops(world, x2, y2, TileLayer.MAIN, null);
+                            if (drops != null)
+                                drops.forEach(drop -> {
+                                    if (drop != null) {
+                                        if (tileEntity.fuelInventory.get(0) != null)
+                                            if (drop.getItem() == tileEntity.fuelInventory.get(0).getItem())
+                                                drop = tileEntity.fuelInventory.add(drop, true);
+                                        if (drop != null)
+                                            tileEntity.inventory.add(drop, false);
+                                    }
+                                });
+                        }
                     }
                 }
             }

@@ -63,7 +63,7 @@ public class DownwardsForce implements IMod {
         String dbc = "drillBitCopper";
         String rp = "pickaxeRock";
         String s = "smelter";
-        ResourceRegistry.addResources(rp, new ResInfo(ITEM_ROCK_PICK));
+        ResourceRegistry.addResources(rp, new ResInfo(ITEM_STONE_PICKAXE));
         ResourceRegistry.addResources(s, new ResInfo(TILE_SMELTER));
         TileDrill drillBasic = new TileDrill(drill_basic, 30, .25f, .5f, 10);
         TileDrill drillCopper = new TileDrill(drill_copper, 42, .5f, .25f, 20);
@@ -82,7 +82,7 @@ public class DownwardsForce implements IMod {
                 new ResUseInfo(rp, 5),
                 new ResUseInfo(RAW_STONE, 20)));
 
-        RockBottomAPI.MANUAL_CONSTRUCTION_RECIPES.add(new BasicRecipe(
+        RockBottomAPI.CONSTRUCTION_TABLE_RECIPES.add(new BasicRecipe(
                 new ItemInstance(drillBasic),
                 new ResUseInfo(dbb),
                 new ResUseInfo(RAW_STONE, 45),
@@ -94,7 +94,7 @@ public class DownwardsForce implements IMod {
                 new ResUseInfo(PROCESSED_COPPER, 20),
                 new ResUseInfo(RAW_STONE, 20)));
 
-        RockBottomAPI.MANUAL_CONSTRUCTION_RECIPES.add(new BasicRecipe(
+        RockBottomAPI.CONSTRUCTION_TABLE_RECIPES.add(new BasicRecipe(
                 new ItemInstance(drillCopper),
                 new ResUseInfo(dbc),
                 new ResUseInfo(RAW_STONE, 45),
