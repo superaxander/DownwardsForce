@@ -1,0 +1,16 @@
+{
+  "df": {
+    "desc": {
+      "drill1": "Max hardness: %d",
+      "drill2": "Inventory Size: %d",
+      "drill3": "Speed: %.2f tiles/tick",
+      "drill4": "Fuel usage modifier: %.2f"
+    },
+    "item": {
+      "drill_basic": "Basic Drill",
+      "drill_bit_basic": "Basic Drill Bit",
+      "drill_bit_copper": "Copper Drill Bit",
+      "drill_copper": "Copper Drill"
+    }
+  }
+}
